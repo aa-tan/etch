@@ -1,6 +1,9 @@
 # TODO: Write documentation for `Etch`
 module Etch
   VERSION = "0.1.0"
-
-  # TODO: Put your code here
+  
+  path = "etchfile" 
+  abort "Missing etchfile", 1 if !File.file? path
+  content = File.read path
+  puts content
 end
