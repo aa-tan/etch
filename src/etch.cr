@@ -21,10 +21,10 @@ module Etch
     if File.directory? data["outpath"]
       etchfile = File.open data["etchpath"], "w"
       result = JSON.build do |json|
-	      json.object do
-  	      json.field "etchfile", data["etchpath"]
+        json.object do
+          json.field "etchfile", data["etchpath"]
           json.field "outpath", data["outpath"]
-	      end
+        end
       end
       etchfile.print result
       etchfile.close
@@ -32,7 +32,7 @@ module Etch
       puts "Invalid path"
     end
   else
-     # TODO: Error handling for reading etchpath
+    # TODO: Error handling for reading etchpath
     content = File.read data["etchpath"]
     puts typeof(content)
     converted = JSON.parse(content)
