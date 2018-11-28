@@ -26,6 +26,13 @@ module Etch
     else
       puts "Invalid path"
     end
+  else
+    content = File.read data["etchpath"]
+    puts typeof(content)
+    converted = JSON.parse(content)
+    puts typeof(converted)
+    puts converted
+  end
 
   end
   
