@@ -1,6 +1,6 @@
 # etch
 
-TODO: Write a description here
+Crystal binary installer
 
 ## Installation
 
