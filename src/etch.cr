@@ -1,10 +1,11 @@
 # TODO: Write documentation for `Etch`
 require "json"
+
 module Etch
   VERSION = "0.1.0"
   # TODO: make etchfile hidden
   path = File.expand_path("~/etchfile.json")
-  data = {"etchpath" => path,"outpath" => "/usr/local/bin/"}
+  data = {"etchpath" => path, "outpath" => "/usr/local/bin/"}
   # TODO: Move contents to seperate method
   # TODO: Create Setup loop
   if !File.file? data["etchpath"]
@@ -18,7 +19,7 @@ module Etch
     end
     # TODO: Add option to create new directory if missing
     if File.directory? data["outpath"]
-      etchfile = File.open data["etchpath"],"w"
+      etchfile = File.open data["etchpath"], "w"
       result = JSON.build do |json|
 	      json.object do
   	      json.field "etchfile", data["etchpath"]
@@ -39,8 +40,6 @@ module Etch
     puts converted
   end
 
- 
-
   # TODO: Create build function
 
   # TODO: Clean up function
@@ -56,9 +55,4 @@ module Etch
     puts "stdout:\n#{stdout}"
     puts "stderr:\n#{stderr}"
   end
-  
-  path = "etchfile" 
-  abort "Missing etchfile", 1 if !File.file? path
-  content = File.read path
-  puts content
 end
