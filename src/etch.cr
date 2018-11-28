@@ -2,7 +2,7 @@
 require "json"
 module Etch
   VERSION = "0.1.0"
-  path = ENV["HOME"]+"/etchfile.json"
+  path = File.expand_path("~/etchfile.json")
   data = {"etchpath" => path,"outpath" => "/usr/local/bin/"}
   if !File.file? data["etchpath"]
     puts "Etchfile missing, setting up..."
@@ -11,7 +11,7 @@ module Etch
     if input.nil?
       puts "Invalid input"
     elsif input != ""
-      data["outpath"] = input.as(String).chomp
+      data["outpath"] = File.expand_path(input.as(String).chomp)
     end
     if File.directory? data["outpath"]
       etchfile = File.open data["etchpath"],"w"
