@@ -91,6 +91,20 @@ module Etch
       @data["outpath"] = path
     end
 
+    def validate_file(fileName : String)
+      if !File.exists? fileName
+        abort "Invalid file or directory given.", 1
+      elsif File.directory? fileName + "/src"
+        if Dir[fileName+"/src/*.cr"].size == 1
+          return Dir[fileName + "/src/*.cr"][0]
+        else
+          abort "Invalid file or directory given.", 1
+  end
+      else
+        return fileName
+      end
+    end
+
   end
 
 end
@@ -107,10 +121,11 @@ else
   end
   content = File.read app.data["etchpath"]
   converted = JSON.parse(content)
-  app.setPath
-  inputFile = File.expand_path ARGV[0]
-  if !File.file? inputFile
-    abort "Invalid file", 1
+  app.set_path
+  inputFile = app.validate_file File.expand_path ARGV[0]
+  projectPath = ""
+  if inputFile
+    projectPath = File.dirname(File.dirname(inputFile))
   end
   app.build inputFile
   
