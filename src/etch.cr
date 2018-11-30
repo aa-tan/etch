@@ -66,13 +66,12 @@ module Etch
     puts converted
   end
 
-  # TODO: Create build function
-
-  # TODO: Clean up function
-  def run_cmd(cmd, args)
+    def build(filename : String)
+      outdir = convertToFile filename
+      args = ["build", "-o", outdir, "--no-debug", filename]
     stdout = IO::Memory.new
     stderr = IO::Memory.new
-    status = Process.run(cmd, args: args, output: stdout, error: stderr)
+      status = Process.run("crystal", args: args, output: stdout, error: stderr)
     if status.success?
       {status.exit_code, stdout.to_s}
     else
