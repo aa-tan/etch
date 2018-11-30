@@ -19,12 +19,13 @@ module Etch
       stderr = IO::Memory.new
       status = Process.run(cmd, args: args, output: stdout, error: stderr)
       if status.success?
-        {status.exit_code, stdout.to_s}
+        return {status.exit_code, stdout.to_s, stderr.to_s}
       else
-        {status.exit_code, stderr.to_s}
+        return {status.exit_code, stdout.to_s, stderr.to_s}
       end
-      puts "stdout:\n#{stdout}"
-      puts "stderr:\n#{stderr}"
+      # puts "Command: #{cmd}\nArguments: #{args}\n"
+      # puts "stdout: #{stdout}"
+      # puts "stderr: #{stderr}"
     end
 
     def setup()
