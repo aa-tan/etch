@@ -1,6 +1,6 @@
 # etch
 
-Crystal binary installer
+An application/binary installer vaguely similar to `make` but targeted towards Crystal-lang projects, written in Crystal-lang!
 
 ## Installation
 
