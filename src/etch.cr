@@ -8,7 +8,12 @@ module Etch
   data = {"etchpath" => path, "outpath" => "/usr/local/bin/"}
   # TODO: Move contents to seperate method
   # TODO: Create Setup loop
-  if !File.file? data["etchpath"]
+  class App
+    property data
+    def initialize
+      path = File.expand_path("~/etchfile.json")
+      @data = {"etchpath"  => path, "outpath" => "/usr/local/bin/"}
+    end
     puts "Etchfile missing, setting up..."
     print "Enter path to save crystal application binaries (Default is /usr/local/bin/): "
     input = gets
