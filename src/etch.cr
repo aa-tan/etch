@@ -29,47 +29,47 @@ module Etch
 
     def setup()
       
-    puts "Etchfile missing, setting up..."
-    print "Enter path to save crystal application binaries (Default is /usr/local/bin/): "
-    input = gets
-    if input.nil?
-      puts "Invalid input"
-    elsif input != ""
+      puts "Etchfile missing, setting up..."
+      print "Enter path to save crystal application binaries (Default is /usr/local/bin/): "
+      input = gets
+      if input.nil?
+        puts "Invalid input"
+      elsif input != ""
         @data["outpath"] = File.expand_path(input.as(String))+"/"
-    end
-    # TODO: Add option to create new directory if missing
+      end
+      # TODO: Add option to create new directory if missing
       if File.directory? @data["outpath"]
         puts "Creating new etchfile..."
         etchfile = File.open @data["etchpath"], "w"
-      result = JSON.build do |json|
-        json.object do
+        result = JSON.build do |json|
+          json.object do
             json.field "etchfile", @data["etchpath"]
             json.field "outpath", @data["outpath"]
+          end
         end
-      end
-      etchfile.print result
-      etchfile.close
+        etchfile.print result
+        etchfile.close
         puts "Done."
         puts "Don't forget to add the path to your PATH if it is not already there."
-    else
-      puts "Invalid path"
+      else
+        puts "Invalid path"
+      end
     end
-  end
 
     def build(filename : String)
       outdir = convertToFile filename
       args = ["build", "-o", outdir, "--no-debug", filename]
-    stdout = IO::Memory.new
-    stderr = IO::Memory.new
+      stdout = IO::Memory.new
+      stderr = IO::Memory.new
       status = Process.run("crystal", args: args, output: stdout, error: stderr)
-    if status.success?
-      {status.exit_code, stdout.to_s}
-    else
-      {status.exit_code, stderr.to_s}
+      if status.success?
+        {status.exit_code, stdout.to_s}
+      else
+        {status.exit_code, stderr.to_s}
+      end
+      puts "stdout:\n#{stdout}"
+      puts "stderr:\n#{stderr}"
     end
-    puts "stdout:\n#{stdout}"
-    puts "stderr:\n#{stderr}"
-  end
 
     def convertToFile(filename : String)
       return @data["outpath"] + File.basename(filename, File.extname(filename))
