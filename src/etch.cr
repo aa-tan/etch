@@ -8,7 +8,7 @@ module Etch
   class App
     property data
     def initialize
-      path = File.expand_path("~/etchfile.json")
+      path = File.expand_path("~/.etchfile.json")
       @data = {"etchpath"  => path, "outpath" => "/usr/local/bin/"}
     end
     # TODO: Create build function
