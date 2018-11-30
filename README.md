@@ -4,15 +4,15 @@ Crystal binary installer
 
 ## Installation
 
-TODO: Write installation instructions here
+1. Clone the repo `git clone https://github.com/aa-tan/etch.git`
+2. Change into the directory `cd etch`
+3. Run the file `crystal src/etch.cr`
+4. Follow the instructions!
 
 ## Usage
 
-TODO: Write usage instructions here
-
-## Development
-
-TODO: Write development instructions here
+Run the program with a crystal project directory or the source file you want to install:
+`etch ./src/example_app.cr`
 
 ## Contributing
 
