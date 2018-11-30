@@ -147,7 +147,3 @@ else
   app.install projectPath
   app.build inputFile
 end
-# ARGV.each_with_index {|arg, i| puts "Argument #{i}: #{arg}"}
-
-# The executable name is available as PROGRAM_NAME
-# puts "Executable name: #{PROGRAM_NAME}"
