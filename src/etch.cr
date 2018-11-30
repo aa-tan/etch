@@ -29,8 +29,16 @@ module Etch
     end
 
     def setup()
+      puts "Could not find etchfile, starting set up."
+      create_etchfile
+      if File.extname(PROGRAM_NAME) == ".tmp"
+        puts "Building etch."
+        build(validate_file File.expand_path("./"))
+      end
+    end
       
-      puts "Etchfile missing, setting up..."
+    def create_etchfile
+      puts "Creating new config file in ~/.etchfile.json"
       print "Enter path to save crystal application binaries (Default is /usr/local/bin/): "
       input = gets
       if input.nil?
@@ -50,10 +58,11 @@ module Etch
         end
         etchfile.print result
         etchfile.close
-        puts "Done."
-        puts "Don't forget to add the path to your PATH if it is not already there."
+        puts "You may need to add the directory to your PATH"
+        puts "Finished writing to etchfile"
+        return true
       else
-        puts "Invalid path"
+        abort "Invalid path, please try again.", 1
       end
     end
 
