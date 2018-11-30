@@ -97,3 +97,28 @@ module Etch
   end
 
 end
+
+include Etch
+app = App.new
+if !File.file? app.data["etchpath"]
+  puts "Is this your first time?"
+  app.setup
+else
+  # TODO: Error handling for reading etchpath
+  if ARGV.size != 1
+    abort "Requires a file", 1
+  end
+  content = File.read app.data["etchpath"]
+  converted = JSON.parse(content)
+  app.setPath
+  inputFile = File.expand_path ARGV[0]
+  if !File.file? inputFile
+    abort "Invalid file", 1
+  end
+  app.build inputFile
+  
+end
+# ARGV.each_with_index {|arg, i| puts "Argument #{i}: #{arg}"}
+
+# The executable name is available as PROGRAM_NAME
+# puts "Executable name: #{PROGRAM_NAME}"
