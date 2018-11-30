@@ -49,6 +49,23 @@ module Etch
       end
     end
 
+    def install(projectFolder : String)
+      cmd = "shards"
+      if File.file? projectFolder + "/shard.yml"
+        puts "shard.yml found, checking for dependencies..."
+        if run_cmd(cmd, ["check"])[0] != 0
+          puts "Unsatisfied dependencies found."
+          puts "Installing shards..."
+          if run_cmd(cmd, ["install"])[0] == 0
+            puts "Successfully installed shards, proceeding to build."
+          end
+        else
+          puts "Dependencies satisfied, proceeding to build."
+        end
+        
+      end
+    end
+
     def create_etchfile
       puts "Creating new config file in ~/.etchfile.json"
       print "Enter path to save crystal application binaries (Default is /usr/local/bin/): "
@@ -112,13 +129,13 @@ end
 include Etch
 app = App.new
 if !File.file? app.data["etchpath"]
-  puts "Is this your first time?"
   app.setup
 else
   # TODO: Error handling for reading etchpath
   if ARGV.size != 1
     abort "Requires a file", 1
   end
+  puts "Beginning Installation..."
   content = File.read app.data["etchpath"]
   converted = JSON.parse(content)
   app.set_path
@@ -127,8 +144,8 @@ else
   if inputFile
     projectPath = File.dirname(File.dirname(inputFile))
   end
+  app.install projectPath
   app.build inputFile
-  
 end
 # ARGV.each_with_index {|arg, i| puts "Argument #{i}: #{arg}"}
 
