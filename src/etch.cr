@@ -3,14 +3,17 @@ require "json"
 
 module Etch
   VERSION = "0.1.0"
+
   # TODO: make etchfile hidden
   # TODO: Create Setup loop
   class App
     property data
+
     def initialize
       path = File.expand_path("~/.etchfile.json")
-      @data = {"etchpath"  => path, "outpath" => "/usr/local/bin/"}
+      @data = {"etchpath" => path, "outpath" => "/usr/local/bin/"}
     end
+
     # TODO: Create build function
 
     # TODO: Clean up function
@@ -28,7 +31,7 @@ module Etch
       # puts "stderr: #{stderr}"
     end
 
-    def setup()
+    def setup
       puts "Could not find etchfile, starting set up."
       create_etchfile
       if File.extname(PROGRAM_NAME) == ".tmp"
@@ -36,7 +39,7 @@ module Etch
         build(validate_file File.expand_path("./"))
       end
     end
-      
+
     def build(fileName : String)
       puts "Starting build..."
       outdir = convert_to_file fileName
@@ -62,7 +65,6 @@ module Etch
         else
           puts "Dependencies satisfied, proceeding to build."
         end
-        
       end
     end
 
@@ -73,7 +75,7 @@ module Etch
       if input.nil?
         puts "Invalid input"
       elsif input != ""
-        @data["outpath"] = File.expand_path(input.as(String))+"/"
+        @data["outpath"] = File.expand_path(input.as(String)) + "/"
       end
       # TODO: Add option to create new directory if missing
       if File.directory? @data["outpath"]
@@ -97,7 +99,7 @@ module Etch
 
     def convert_to_file(fileName : String)
       return @data["outpath"] + File.basename(fileName, File.extname(fileName))
-      end
+    end
 
     def set_path
       content = File.read @data["etchpath"]
@@ -112,18 +114,16 @@ module Etch
       if !File.exists? fileName
         abort "Invalid file or directory given.", 1
       elsif File.directory? fileName + "/src"
-        if Dir[fileName+"/src/*.cr"].size == 1
+        if Dir[fileName + "/src/*.cr"].size == 1
           return Dir[fileName + "/src/*.cr"][0]
         else
           abort "Invalid file or directory given.", 1
-  end
+        end
       else
         return fileName
       end
     end
-
   end
-
 end
 
 include Etch
