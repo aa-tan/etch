@@ -4,9 +4,6 @@ require "json"
 module Etch
   VERSION = "0.1.0"
   # TODO: make etchfile hidden
-  path = File.expand_path("~/etchfile.json")
-  data = {"etchpath" => path, "outpath" => "/usr/local/bin/"}
-  # TODO: Move contents to seperate method
   # TODO: Create Setup loop
   class App
     property data
@@ -57,13 +54,6 @@ module Etch
     else
       puts "Invalid path"
     end
-  else
-    # TODO: Error handling for reading etchpath
-    content = File.read data["etchpath"]
-    puts typeof(content)
-    converted = JSON.parse(content)
-    puts typeof(converted)
-    puts converted
   end
 
     def build(filename : String)
