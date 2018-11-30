@@ -37,6 +37,18 @@ module Etch
       end
     end
       
+    def build(fileName : String)
+      puts "Starting build..."
+      outdir = convert_to_file fileName
+      cmd = "crystal"
+      args = ["build", "-o", outdir, "--no-debug", fileName]
+      if run_cmd(cmd, args)[0] == 0
+        puts "Build Successful."
+      else
+        abort "Build failed.", 1
+      end
+    end
+
     def create_etchfile
       puts "Creating new config file in ~/.etchfile.json"
       print "Enter path to save crystal application binaries (Default is /usr/local/bin/): "
@@ -66,26 +78,11 @@ module Etch
       end
     end
 
-    def build(filename : String)
-      outdir = convertToFile filename
-      args = ["build", "-o", outdir, "--no-debug", filename]
-      stdout = IO::Memory.new
-      stderr = IO::Memory.new
-      status = Process.run("crystal", args: args, output: stdout, error: stderr)
-      if status.success?
-        {status.exit_code, stdout.to_s}
-      else
-        {status.exit_code, stderr.to_s}
+    def convert_to_file(fileName : String)
+      return @data["outpath"] + File.basename(fileName, File.extname(fileName))
       end
-      puts "stdout:\n#{stdout}"
-      puts "stderr:\n#{stderr}"
-    end
 
-    def convertToFile(filename : String)
-      return @data["outpath"] + File.basename(filename, File.extname(filename))
-    end
-
-    def setPath()
+    def set_path
       content = File.read @data["etchpath"]
       path = JSON.parse(content)["outpath"].to_s
       if !File.directory? path
