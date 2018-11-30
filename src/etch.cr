@@ -80,4 +80,20 @@ module Etch
     puts "stdout:\n#{stdout}"
     puts "stderr:\n#{stderr}"
   end
+
+    def convertToFile(filename : String)
+      return @data["outpath"] + File.basename(filename, File.extname(filename))
+    end
+
+    def setPath()
+      content = File.read @data["etchpath"]
+      path = JSON.parse(content)["outpath"].to_s
+      if !File.directory? path
+        abort "Error reading output directory. Ensure etchpath is storing a valid directory", 1
+      end
+      @data["outpath"] = path
+    end
+
+  end
+
 end
